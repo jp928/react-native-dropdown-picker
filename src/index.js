@@ -4,10 +4,10 @@ import {
     Text,
     View,
     TouchableOpacity,
-    ScrollView,
     Platform,
     TextInput,
-    FlatList
+    FlatList,
+    Modal,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -129,17 +129,32 @@ class DropDownPicker extends React.Component {
     }
 
     toggle() {
-        this.setState({
-            isVisible: ! this.state.isVisible,
-        }, () => {
-            const isVisible = this.state.isVisible;
+        this.container.measureInWindow((x, y, containerWidth, containerHeight) => {
+            const top = y + containerHeight;
 
-            if (isVisible) {
-        		this.props.onOpen();
-        	} else {
-        		this.props.onClose();
-        	}
+            this.setState({
+                isVisible: ! this.state.isVisible,
+                left: x,
+                top,
+                width: containerWidth,
+            }, () => {
+                const isVisible = this.state.isVisible;
+
+                if (isVisible) {
+                    this.props.onOpen();
+                } else {
+                    this.props.onClose();
+                }
+            });
+
         });
+
+        
+    }
+
+    closeDropdown() {
+        console.log('hello');
+        this.setState({ isVisible: false });
     }
 
     select(item, index) {
@@ -269,15 +284,21 @@ class DropDownPicker extends React.Component {
         const items = this.getItems();
 
         return (
-            <View style={[this.props.containerStyle, {
+            <View
+                ref={ref => {
+                    this.container = ref;
+                }}
+                style={[
+                    this.props.containerStyle,
+                    {
 
-                    ...(Platform.OS !== 'android' && {
-                        zIndex: this.props.zIndex
-                    })
-
-            }]}>
+                        ...(Platform.OS !== 'android' && {
+                            zIndex: this.props.zIndex
+                        })
+                    }
+                ]}
+            >
                 <TouchableOpacity
-                    onLayout={(event) => this.getLayout(event.nativeEvent.layout)}
                     disabled={disabled}
                     onPress={() => this.toggle()}
                     activeOpacity={1}
@@ -289,7 +310,9 @@ class DropDownPicker extends React.Component {
                         }
                     ]}
                 >
-                    <View style={[styles.dropDownDisplay]}>
+                    <View
+                        style={styles.dropDownDisplay}
+                    >
                         {this.state.choice.icon && ! multiple && this.state.choice.icon()}
                         <Text style={[
                             this.props.labelStyle,
@@ -316,42 +339,59 @@ class DropDownPicker extends React.Component {
                         </View>
                     )}
                 </TouchableOpacity>
-                <View style={[
-                    styles.dropDown,
-                    styles.dropDownBox,
-                    this.props.dropDownStyle,
-                    ! this.state.isVisible && styles.hidden, {
-                        top: this.state.top,
-                        maxHeight: this.props.dropDownMaxHeight,
-                        zIndex: this.props.zIndex
-                    }
-                ]}>
-                    {
-                      this.props.searchable && (
-                        <View style={{width: '100%', flexDirection: 'row'}}>
-                            <TextInput
-                                style={[styles.input, this.props.searchableStyle]}
-                                defaultValue={this.state.searchableText}
-                                placeholder={this.props.searchablePlaceholder}
-                                placeholderTextColor={this.props.searchablePlaceholderTextColor}
-                                onChangeText={(text) => {
-                                    this.setState({
-                                        searchableText: text
-                                    })
-                                }}
-                            />
-                        </View>
-                      )
-                    }
+                <Modal
+                    visible={this.state.isVisible}
+                    transparent
+                    onRequestClose={() => this.closeDropdown()}
+                >
+                    <View
+                        style={styles.overlay}
+                        onStartShouldSetResponder={() => true}
+                        onResponderRelease={() => this.closeDropdown()}
+                    >
+                        <View
+                            style={[
+                                styles.dropDown,
+                                styles.dropDownBox,
+                                this.props.dropDownStyle,
+                                ! this.state.isVisible && styles.hidden, {
+                                    top: this.state.top,
+                                    left: this.state.left,
+                                    width: this.state.width,
+                                    maxHeight: this.props.dropDownMaxHeight,
+                                    zIndex: this.props.zIndex
+                                }
+                            ]}
+                        >
+                            {
+                              this.props.searchable && (
+                                <View style={{width: '100%', flexDirection: 'row'}}>
+                                    <TextInput
+                                        style={[styles.input, this.props.searchableStyle]}
+                                        defaultValue={this.state.searchableText}
+                                        placeholder={this.props.searchablePlaceholder}
+                                        placeholderTextColor={this.props.searchablePlaceholderTextColor}
+                                        onChangeText={(text) => {
+                                            this.setState({
+                                                searchableText: text
+                                            })
+                                        }}
+                                    />
+                                </View>
+                              )
+                            }
 
-                <FlatList 
-                    style={{width: '100%'}}  
-                    data={items}
-                    renderItem={this._renderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                    ListEmptyComponent={this._renderEmptyContainer}>   
-                </FlatList>
-                </View>
+                            <FlatList 
+                                style={{width: '100%'}}  
+                                data={items}
+                                renderItem={this._renderItem}
+                                keyExtractor={(item, index) => index.toString()}
+                                ListEmptyComponent={this._renderEmptyContainer}
+                                nestedScrollEnabled>   
+                            </FlatList>
+                        </View>
+                    </View>
+                </Modal>
             </View>
         );
     }
@@ -494,6 +534,9 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         marginBottom: 15,
         alignItems: 'center'
+    },
+    overlay: {
+        ...StyleSheet.absoluteFillObject,
     }
 });
 

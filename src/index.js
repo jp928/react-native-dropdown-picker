@@ -436,7 +436,7 @@ DropDownPicker.propTypes = {
     defaultValue: PropTypes.any,
     placeholder: PropTypes.string,
     dropDownMaxHeight: PropTypes.number,
-    style: PropTypes.object || PropTypes.array,
+    style: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
     dropDownStyle: PropTypes.object,
     containerStyle: PropTypes.object,
     itemStyle: PropTypes.object,

@@ -286,7 +286,7 @@ class DropDownPicker extends React.Component {
                 ref={ref => {
                     this.container = ref;
                 }}
-                onLayout={({ e }) => {
+                onLayout={(e) => {
                     const {nativeEvent: {layout}} = e;
 
                     if (onLayout && 'function' == typeof onLayout) {

@@ -318,7 +318,7 @@ class DropDownPicker extends React.Component {
                         </Text>
                     </View>
                     {this.props.showArrow && (
-                        <View style={[styles.arrow]}>
+                        <View style={styles.arrow}>
                             <View style={[this.props.arrowStyle, {opacity}]}>
                             {
                                 ! this.state.isVisible ? (

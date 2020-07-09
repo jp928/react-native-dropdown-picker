@@ -494,7 +494,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderTopRightRadius: 0,
         borderBottomRightRadius: 0,
-        flexGrow: 1
+        flexGrow: 1,
     },
     dropDownBox: {
         borderTopLeftRadius: 0,
@@ -503,12 +503,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlign: 'center',
         position: 'absolute',
-        width: '100%'
+        width: '100%',
     },
     dropDownItem: {
         paddingVertical: 8,
         width: '100%',
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
     input: {
       flex: 1,
@@ -521,7 +521,7 @@ const styles = StyleSheet.create({
     hidden: {
         position: 'relative',
         display: 'none',
-        borderWidth: 0
+        borderWidth: 0,
     },
     noBottomRadius: {
         borderBottomLeftRadius: 0,
@@ -530,10 +530,11 @@ const styles = StyleSheet.create({
     notFound: {
         marginVertical: 10,
         marginBottom: 15,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'transparent',
     }
 });
 

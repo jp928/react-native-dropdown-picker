@@ -274,7 +274,7 @@ class DropDownPicker extends React.Component {
 
     render() {
         const { multiple, disabled } = this.state.props;
-        const { placeholder } = this.props;
+        const { placeholder, onLayout } = this.props;
         const isPlaceholderActive = this.state.choice.label === null;
         const label = isPlaceholderActive ? (placeholder) : this.state.choice.label;
         const placeholderStyle = isPlaceholderActive && this.props.placeholderStyle;
@@ -285,6 +285,14 @@ class DropDownPicker extends React.Component {
             <View
                 ref={ref => {
                     this.container = ref;
+                }}
+                onLayout={({ e }) => {
+                    const {nativeEvent: {layout}} = e;
+
+                    if (onLayout && 'function' == typeof onLayout) {
+                        onLayout(layout);
+                    }
+
                 }}
                 style={this.props.containerStyle}
             >
@@ -345,9 +353,9 @@ class DropDownPicker extends React.Component {
                                 styles.dropDownBox,
                                 this.props.dropDownStyle,
                                 ! this.state.isVisible && styles.hidden, {
-                                    top: this.state.top,
-                                    left: this.state.left,
-                                    width: this.state.width,
+                                    top: this.state.top || 0,
+                                    left: this.state.left || 0,
+                                    width: this.state.width || '100%',
                                     maxHeight: this.props.dropDownMaxHeight,
                                 }
                             ]}

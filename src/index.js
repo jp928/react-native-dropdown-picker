@@ -310,6 +310,7 @@ class DropDownPicker extends React.Component {
                 >
                     <View
                         style={styles.dropDownDisplay}
+                        pointerEvents='box-only'
                     >
                         {this.state.choice.icon && ! multiple && this.state.choice.icon()}
                         <Text style={[
@@ -359,6 +360,7 @@ class DropDownPicker extends React.Component {
                                     maxHeight: this.props.dropDownMaxHeight,
                                 }
                             ]}
+                            onStartShouldSetResponder={() => true}
                         >
                             {
                               this.props.searchable && (
@@ -434,7 +436,7 @@ DropDownPicker.propTypes = {
     defaultValue: PropTypes.any,
     placeholder: PropTypes.string,
     dropDownMaxHeight: PropTypes.number,
-    style: PropTypes.object,
+    style: PropTypes.object || PropTypes.array,
     dropDownStyle: PropTypes.object,
     containerStyle: PropTypes.object,
     itemStyle: PropTypes.object,

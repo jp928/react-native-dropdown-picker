@@ -4,7 +4,6 @@ import {
     Text,
     View,
     TouchableOpacity,
-    Platform,
     TextInput,
     FlatList,
     Modal,
@@ -153,7 +152,6 @@ class DropDownPicker extends React.Component {
     }
 
     closeDropdown() {
-        console.log('hello');
         this.setState({ isVisible: false });
     }
 

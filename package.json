@@ -1,6 +1,6 @@
 {
   "name": "@nectr-rn/react-native-dropdown-picker",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A single or multiple, searchable item picker (dropdown) component for react native which supports both Android & iOS.",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -28,7 +28,7 @@
     "javascript"
   ],
   "dependencies": {
-    "react-native-vector-icons": "^6.6.0",
+    "react-native-vector-icons": "^7.0.0",
     "prop-types": "^15.7.2"
   },
   "author": "Hossein Zare & Jingtai Piao",

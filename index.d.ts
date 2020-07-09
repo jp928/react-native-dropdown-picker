@@ -1,4 +1,4 @@
-import { ComponentClass } from 'react';
+import { ComponentType } from 'react';
 
 declare module 'react-native-dropdown-picker' {
   type DropDownPicker = {
@@ -6,7 +6,7 @@ declare module 'react-native-dropdown-picker' {
     defaultValue?: any;
     placeholder?: string;
     dropDownMaxHeight?: number;
-    style?: Object;
+    style?: Object | Array<Object> ;
     dropDownStyle?: Object;
     containerStyle?: Object;
     itemStyle?: Object;
@@ -38,6 +38,6 @@ declare module 'react-native-dropdown-picker' {
     onChangeItem?: (item: any, index: number) => void;
     onLayout?: (arg: Object) => void;
   };
-  const DropDownPicker: ComponentClass<DropDownPicker>;
+  const DropDownPicker: ComponentType<DropDownPicker>;
   export default DropDownPicker;
 }

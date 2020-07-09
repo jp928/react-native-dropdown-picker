@@ -288,15 +288,7 @@ class DropDownPicker extends React.Component {
                 ref={ref => {
                     this.container = ref;
                 }}
-                style={[
-                    this.props.containerStyle,
-                    {
-
-                        ...(Platform.OS !== 'android' && {
-                            zIndex: this.props.zIndex
-                        })
-                    }
-                ]}
+                style={this.props.containerStyle}
             >
                 <TouchableOpacity
                     disabled={disabled}
@@ -359,7 +351,6 @@ class DropDownPicker extends React.Component {
                                     left: this.state.left,
                                     width: this.state.width,
                                     maxHeight: this.props.dropDownMaxHeight,
-                                    zIndex: this.props.zIndex
                                 }
                             ]}
                         >
@@ -416,7 +407,6 @@ DropDownPicker.defaultProps = {
     customArrowUp: (size, color) => <Feather name="chevron-up" size={size} color={color} />,
     customArrowDown: (size, color) => <Feather name="chevron-down" size={size} color={color} />,
     customTickIcon: () => <Feather name="check" size={15} />,
-    zIndex: 5000,
     disabled: false,
     searchable: false,
     searchablePlaceholder: 'Search for an item',
@@ -454,7 +444,6 @@ DropDownPicker.propTypes = {
     customArrowUp: PropTypes.func,
     customArrowDown: PropTypes.func,
     customTickIcon: PropTypes.func,
-    zIndex: PropTypes.number,
     disabled: PropTypes.bool,
     searchable: PropTypes.bool,
     searchablePlaceholder: PropTypes.string,

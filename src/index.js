@@ -10,6 +10,7 @@ import {
     ViewPropTypes,
     Modal,
     Keyboard,
+    StatusBar,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -142,32 +143,25 @@ class DropDownPicker extends React.Component {
     }
 
     toggle() {
-        Keyboard.dismiss();
+        if (Platform.OS === 'ios') {
+            Keyboard.dismiss();
+        }
+
         setTimeout(() => {
             this.container.measureInWindow((x, y, containerWidth, containerHeight) => {
-                const top = y + containerHeight;
-    
+                const top = y + containerHeight + StatusBar.currentHeight || 0;
                 this.setState({
                     isVisible: ! this.state.isVisible,
                     left: x,
                     top,
                     width: containerWidth,
-                }, () => {
-                    const isVisible = this.state.isVisible;
-    
-                    if (isVisible) {
-                        this.open(false);
-                    } else {
-                        this.close(false);
-                    }
                 });
-    
             });
-        }, DELAY);    
+        }, DELAY);
     }
 
     closeDropdown() {
-        this.close(true);
+        this.setState({ isVisible: false });
     }
 
     resetItems(items, defaultValue = null) {
@@ -237,18 +231,6 @@ class DropDownPicker extends React.Component {
         this.props.onChangeList(data.items, callback);
     }
 
-    open(setState = true) {
-        this.setState({
-            ...(setState && {isVisible: true})
-        }, () => this.props.onOpen());
-    }
-
-    close(setState = true) {
-        this.setState({
-            ...(setState && {isVisible: false})
-        }, () => this.props.onClose());
-    }
-
     selectItem(defaultValue) {
         if (this.state.props.multiple) {
             (async () => {
@@ -313,12 +295,6 @@ class DropDownPicker extends React.Component {
             this.props.onClose();
     }
 
-    getLayout(layout) {
-        this.setState({
-            top: layout.height - 1
-        });
-    }
-
     getItems() {
         if (this.state.searchableText) {
             const text = this.state.searchableText.toLowerCase();
@@ -369,13 +345,12 @@ class DropDownPicker extends React.Component {
 
         return (
             <View
-                ref={ref => {
-                    this.container = ref;
-                }}
                 style={this.props.containerStyle}
             >
                 <TouchableOpacity
-                    onLayout={(event) => this.getLayout(event.nativeEvent.layout)}
+                    ref={ref => {
+                        this.container = ref;
+                    }}
                     disabled={disabled}
                     onPress={() => this.toggle()}
                     activeOpacity={1}
@@ -419,8 +394,10 @@ class DropDownPicker extends React.Component {
                 </TouchableOpacity>
                 <Modal
                     visible={this.state.isVisible}
+                    presentationStyle="overFullScreen"
                     transparent
                     onRequestClose={() => this.closeDropdown()}
+                    statusBarTranslucent
                 >
                     <View
                         style={styles.overlay}
@@ -659,6 +636,7 @@ const styles = StyleSheet.create({
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
+        backgroundColor: 'transparent'
     }
 });
 

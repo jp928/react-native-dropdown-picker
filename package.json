@@ -1,6 +1,6 @@
 {
   "name": "@nectr-rn/react-native-dropdown-picker",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "A single or multiple, searchable item picker (dropdown) component for react native which supports both Android & iOS.",
   "main": "src/index.js",
   "types": "index.d.ts",
@@ -19,6 +19,8 @@
     "menu",
     "context",
     "component",
+    "rtl",
+    "rtl-support",
     "react",
     "reactnative",
     "react-native",

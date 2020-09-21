@@ -10,7 +10,6 @@ import {
     ViewPropTypes,
     Modal,
     Keyboard,
-    Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -373,11 +372,7 @@ class DropDownPicker extends React.Component {
                 ref={ref => {
                     this.container = ref;
                 }}
-                style={[this.props.containerStyle, {
-                    ...(Platform.OS !== 'android' && {
-                        zIndex: this.props.zIndex
-                    })
-                }]}
+                style={this.props.containerStyle}
             >
                 <TouchableOpacity
                     onLayout={(event) => this.getLayout(event.nativeEvent.layout)}
@@ -439,7 +434,6 @@ class DropDownPicker extends React.Component {
                             ! this.state.isVisible && styles.hidden, {
                                 top: this.state.top,
                                 maxHeight: this.props.dropDownMaxHeight,
-                                zIndex: this.props.zIndex,
                                 width: this.state.width,
                                 left: this.state.left,
                             }
@@ -543,7 +537,6 @@ DropDownPicker.defaultProps = {
     customArrowUp: (size, color) => <Feather name="chevron-up" size={size} color={color} />,
     customArrowDown: (size, color) => <Feather name="chevron-down" size={size} color={color} />,
     customTickIcon: () => <Feather name="check" size={15} />,
-    zIndex: 5000,
     disabled: false,
     searchable: false,
     searchablePlaceholder: 'Search for an item',
@@ -586,7 +579,6 @@ DropDownPicker.propTypes = {
     customArrowUp: PropTypes.func,
     customArrowDown: PropTypes.func,
     customTickIcon: PropTypes.func,
-    zIndex: PropTypes.number,
     disabled: PropTypes.bool,
     searchable: PropTypes.bool,
     searchablePlaceholder: PropTypes.string,

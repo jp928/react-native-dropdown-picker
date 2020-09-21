@@ -167,7 +167,7 @@ class DropDownPicker extends React.Component {
     }
 
     closeDropdown() {
-        this.close(false);
+        this.close(true);
     }
 
     resetItems(items, defaultValue = null) {

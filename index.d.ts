@@ -1,4 +1,4 @@
-declare module 'react-native-dropdown-picker' {
+declare module '@nectr-rn/react-native-dropdown-picker' {
   import { ComponentType } from 'react';
   import { StyleProp, TextStyle, ViewStyle, ScrollViewProps } from 'react-native';
  
